@@ -1,5 +1,31 @@
 use std::fs;
 
+fn part1(list1: &Vec<i32>, list2: &Vec<i32>) -> u32 {
+    let mut total: u32 = 0;
+    for i in 0..list1.len() {
+        let diff: u32 = (list1[i] - list2[i]).abs() as u32;
+        total += diff;
+    }
+
+    return total;
+}
+
+fn part2(list1: &Vec<i32>, list2: &Vec<i32>) -> u32 {
+    let mut similarity: u32 = 0;
+    for i in 0..list1.len() {
+        let mut s = 0_u32;
+        for j in 0..list2.len() {
+            if list2[j] == list1[i] {
+                s += 1;
+            }
+        }
+
+        similarity += s * list1[i] as u32;
+    }
+
+    return similarity;
+}
+
 fn main() {
     let list_path = "input/lists.txt";
     let lists = fs::read_to_string(list_path)
@@ -22,11 +48,9 @@ fn main() {
     list1.sort();
     list2.sort();
 
-    let mut total: u32 = 0;
-    for i in 0..list1.len() {
-        let diff: u32 = (list1[i] - list2[i]).abs() as u32;
-        total += diff;
-    }
+    let total = part1(&list1, &list2);
+    let similarity = part2(&list1, &list2);
 
     println!("Total difference: {}", total);
+    println!("Similarity: {}", similarity);
 }
